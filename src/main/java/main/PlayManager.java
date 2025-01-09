@@ -1,8 +1,6 @@
 package main;
 
-import mino.Block;
-import mino.Mino;
-import mino.MinoL1;
+import mino.*;
 
 import java.awt.*;
 import java.util.Random;
@@ -41,10 +39,29 @@ public class PlayManager {
         MINO_START_Y = top_y + Block.SIZE;
 
         //Starting Mino
-        currentMino = new MinoL1();
+        currentMino = pickMino();
         currentMino.setXY(MINO_START_X, MINO_START_Y);
 
     }
+
+    private Mino pickMino() {
+        Mino mino = null;
+        int i = new Random().nextInt(7);
+        mino = switch (i) {
+            case 0 -> new MinoL1();
+            case 1 -> new MinoL2();
+            case 2 -> new MinoSquare();
+            case 3 -> new MinoBar();
+            case 4 -> new MinoT();
+            case 5 -> new MinoZ1();
+            case 6 -> new MinoZ2();
+            default -> throw new IllegalStateException("Unexpected value: " + i);
+        };
+
+
+        return mino;
+    }
+
 
     public void update() {
         currentMino.update();

@@ -22,6 +22,9 @@ public class MinoL2 extends Mino {
 
     @Override
     public void getDirection1() {
+        //   o
+        //   o
+        // o o
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x;
@@ -36,6 +39,8 @@ public class MinoL2 extends Mino {
 
     @Override
     public void getDirection2() {
+        // o
+        // o o o
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x + Block.SIZE;
@@ -50,6 +55,9 @@ public class MinoL2 extends Mino {
 
     @Override
     public void getDirection3() {
+        //o o
+        //o
+        //o
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x;
@@ -64,6 +72,9 @@ public class MinoL2 extends Mino {
 
     @Override
     public void getDirection4() {
+        // o o o
+        //     o
+
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x - Block.SIZE;

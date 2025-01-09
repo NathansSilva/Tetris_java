@@ -29,6 +29,10 @@ public class MinoL1 extends Mino{
 
     public void getDirection1(){
         //default mino direction
+        // o
+        // o
+        // o o
+
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x;
@@ -55,9 +59,9 @@ public class MinoL1 extends Mino{
         updateXY(2);
     }
     public void getDirection3(){
-        //oo
-        // o
-        // o
+        // o o
+        //   o
+        //   o
 
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
@@ -71,8 +75,8 @@ public class MinoL1 extends Mino{
         updateXY(3);
     }
     public void getDirection4(){
-        //  o
-        //ooo
+        //    o
+        //o o o
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
         tempB[1].x = b[0].x - Block.SIZE;
