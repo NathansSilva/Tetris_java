@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -49,7 +50,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
-        pm.update();
+        if (!MovementHandler.pausePressed){
+            pm.update();
+        }
     }
 
     public void paintComponent(Graphics g) {
