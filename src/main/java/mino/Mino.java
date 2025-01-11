@@ -1,11 +1,10 @@
 package mino;
 
+import main.GamePanel;
 import main.MovementHandler;
 import main.PlayManager;
 
 import java.awt.*;
-import java.util.List;
-import java.util.Random;
 
 public class Mino {
 
@@ -164,6 +163,7 @@ public class Mino {
                     break;
             }
             MovementHandler.upPressed = false;
+            GamePanel.se.play(3, false);
         }
 
         checkMovementCollision();
@@ -181,6 +181,7 @@ public class Mino {
 
             MovementHandler.downPressed = false;
         }
+        
         if (MovementHandler.leftPressed) {
             if (!leftCollision) {
                 b[0].x -= Block.SIZE;
@@ -190,6 +191,7 @@ public class Mino {
             }
             MovementHandler.leftPressed = false;
         }
+
         if (MovementHandler.rightPressed) {
             if (!rightCollision) {
                 b[0].x += Block.SIZE;
@@ -201,8 +203,10 @@ public class Mino {
         }
 
         if (bottomCollision) {
+            if (!deactivating) {
+                GamePanel.se.play(4, false);
+            }
             deactivating = true;
-            active = false;
         } else {
             autoDropCounter++;
             if (autoDropCounter == PlayManager.dropInterval) {
@@ -213,7 +217,6 @@ public class Mino {
                 autoDropCounter = 0;
             }
         }
-
     }
 
     private void deactivating() {
@@ -229,9 +232,7 @@ public class Mino {
     }
 
     public void draw(Graphics2D g2) {
-
         int margin = 1;
-
         g2.setColor(b[0].c);
         g2.fillRect(b[0].x + margin, b[0].y + margin, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
         g2.fillRect(b[1].x + margin, b[1].y + margin, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
