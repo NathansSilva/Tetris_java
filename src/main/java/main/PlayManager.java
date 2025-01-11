@@ -35,6 +35,12 @@ public class PlayManager {
     int effectCounter;
     List<Integer> effectY = new ArrayList<>();
 
+    //Score
+    int level = 1;
+    int lines;
+    int score;
+
+
     //Others
     public static int dropInterval = 60; //mino drops in every 60 frames
 
@@ -89,7 +95,7 @@ public class PlayManager {
             staticBlocks.add(currentMino.b[3]);
 
             //check gameover, check if is moving from the starting pos.
-            if (currentMino.b[0].x == MINO_START_X) {
+            if (currentMino.b[0].x == MINO_START_X && currentMino.b[0].y == MINO_START_Y) {
                 gameOver = true;
             }
 
@@ -112,6 +118,7 @@ public class PlayManager {
         int x = left_x;
         int y = top_y;
         int blockCount = 0;
+        int lineCount = 0;
 
         while (x < right_x && y < bottom_y) {
 
@@ -121,7 +128,7 @@ public class PlayManager {
                 }
             }
 
-            x+= Block.SIZE;
+            x += Block.SIZE;
 
             //checking if hit 12 blocks, if == 12 = delete;
             if (x == right_x) {
@@ -129,9 +136,21 @@ public class PlayManager {
                     effectCounterOn = true;
                     effectY.add(y);
 
-                    for (int i = staticBlocks.size()-1; i > -1; i--) {
+                    for (int i = staticBlocks.size() - 1; i > -1; i--) {
                         if (staticBlocks.get(i).y == y) {
                             staticBlocks.remove(i);
+                        }
+                    }
+
+                    lineCount++;
+                    lines++;
+                    //Drop speed, score hits a number and increases speed, 1 is the fastest
+                    if (lines % 7 == 0 && dropInterval > 1) {
+                        level++;
+                        if (dropInterval > 10) {
+                            dropInterval -= 10;
+                        } else {
+                            dropInterval -= 1;
                         }
                     }
 
@@ -141,15 +160,18 @@ public class PlayManager {
                             staticBlocks.get(i).y += Block.SIZE;
                         }
                     }
-
                 }
-
                 blockCount = 0;
                 x = left_x;
-                y+= Block.SIZE;
+                y += Block.SIZE;
             }
-        }
 
+            if (lineCount > 0) {
+                int singleLineScore = 10 * level;
+                score+= singleLineScore * lineCount;
+            }
+
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -166,6 +188,14 @@ public class PlayManager {
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT", x + 60, y + 60);
+
+        //Score frame
+        g2.drawRect(x, top_y, 250, 300);
+        x += 40;
+        y = top_y + 90;
+        g2.drawString("LEVEL: " + level, x, y); y+= 70;
+        g2.drawString("LINES: " + lines, x, y); y+= 70;
+        g2.drawString("SCORE: " + score, x, y);
 
         //Draw the currentMino
         if (currentMino != null) {
@@ -197,14 +227,32 @@ public class PlayManager {
             }
         }
 
-        //pause
+        //pause or game over
         g2.setColor(Color.YELLOW);
         g2.setFont(g2.getFont().deriveFont(50f));
-        if (MovementHandler.pausePressed) {
+        if (gameOver) {
+            x = left_x + 25;
+            y = top_y + 320;
+            g2.drawString("GAME OVER", x, y);
+        } else if (MovementHandler.pausePressed) {
             x = left_x + 90;
             y = top_y + 310;
             g2.drawString("PAUSE", x, y);
         }
+        //Game title
+
+        x = 60;
+        y = top_y + 200;
+        g2.setColor(Color.getHSBColor(130, 41, 51));
+        g2.setFont(new Font("Times new Roman", Font.ITALIC, 65));
+        g2.drawString("Simple Tetris", x, y);
+
+        x = 60;
+        y = top_y + 240;
+        g2.setColor(Color.getHSBColor(130, 41, 51));
+        g2.setFont(new Font("Times new Roman", Font.BOLD, 16));
+        g2.drawString("Created by: NathansSilva, following steps of RyiSnow", x, y);
+
 
     }
 
