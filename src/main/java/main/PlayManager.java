@@ -4,6 +4,7 @@ import mino.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PlayManager {
@@ -29,8 +30,16 @@ public class PlayManager {
     final int NEXTMINO_Y;
     public static ArrayList<Block> staticBlocks = new ArrayList<>();
 
+    //Effects
+    boolean effectCounterOn;
+    int effectCounter;
+    List<Integer> effectY = new ArrayList<>();
+
     //Others
     public static int dropInterval = 60; //mino drops in every 60 frames
+
+    //game over
+    boolean gameOver;
 
     public PlayManager() {
         //Main Play Area Frame
@@ -79,15 +88,68 @@ public class PlayManager {
             staticBlocks.add(currentMino.b[2]);
             staticBlocks.add(currentMino.b[3]);
 
+            //check gameover, check if is moving from the starting pos.
+            if (currentMino.b[0].x == MINO_START_X) {
+                gameOver = true;
+            }
+
+            currentMino.deactivating = false;
+
             //nextMino
             currentMino = nextMino;
             currentMino.setXY(MINO_START_X, MINO_START_Y);
             nextMino = pickMino();
             nextMino.setXY(NEXTMINO_X, NEXTMINO_Y);
 
+            checkDelete();
+
         } else {
             currentMino.update();
         }
+    }
+
+    private void checkDelete() {
+        int x = left_x;
+        int y = top_y;
+        int blockCount = 0;
+
+        while (x < right_x && y < bottom_y) {
+
+            for (Block staticBlock : staticBlocks) {
+                if (staticBlock.x == x && staticBlock.y == y) {
+                    blockCount++;
+                }
+            }
+
+            x+= Block.SIZE;
+
+            //checking if hit 12 blocks, if == 12 = delete;
+            if (x == right_x) {
+                if (blockCount == 12) {
+                    effectCounterOn = true;
+                    effectY.add(y);
+
+                    for (int i = staticBlocks.size()-1; i > -1; i--) {
+                        if (staticBlocks.get(i).y == y) {
+                            staticBlocks.remove(i);
+                        }
+                    }
+
+                    //moving blocks down
+                    for (int i = 0; i < staticBlocks.size(); i++) {
+                        if (staticBlocks.get(i).y < y) {
+                            staticBlocks.get(i).y += Block.SIZE;
+                        }
+                    }
+
+                }
+
+                blockCount = 0;
+                x = left_x;
+                y+= Block.SIZE;
+            }
+        }
+
     }
 
     public void draw(Graphics2D g2) {
@@ -116,6 +178,23 @@ public class PlayManager {
         //Static blocks draw
         for (int i = 0; i < staticBlocks.size(); i++) {
             staticBlocks.get(i).draw(g2);
+        }
+
+
+        //Draw effect
+        if (effectCounterOn) {
+            effectCounter++;
+
+            g2.setColor(Color.YELLOW);
+            for (Integer integer : effectY) {
+                g2.fillRect(left_x, integer, WIDTH, Block.SIZE);
+            }
+
+            if (effectCounter == 7) {
+                effectCounterOn = false;
+                effectCounter = 0;
+                effectY.clear();
+            }
         }
 
         //pause
