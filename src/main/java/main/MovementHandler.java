@@ -7,7 +7,6 @@ public class MovementHandler implements KeyListener {
 
     public static boolean upPressed, downPressed, leftPressed, rightPressed, pausePressed;
 
-
     @Override
     public void keyTyped(KeyEvent e) {}
 
