@@ -22,9 +22,8 @@ public class PlayManager {
     Mino currentMino;
     final int MINO_START_X;
     final int MINO_START_Y;
-    public static Color[] colors = {Color.orange, Color.blue, Color.red, Color.cyan, Color.green, Color.magenta, Color.yellow};
-    public static Random random = new Random();
-    public static int randomIndex = random.nextInt(colors.length);
+
+
     Mino nextMino;
     final int NEXTMINO_X;
     final int NEXTMINO_Y;
@@ -119,6 +118,7 @@ public class PlayManager {
             staticBlocks.get(i).draw(g2);
         }
 
+        //pause
         g2.setColor(Color.YELLOW);
         g2.setFont(g2.getFont().deriveFont(50f));
         if (MovementHandler.pausePressed) {

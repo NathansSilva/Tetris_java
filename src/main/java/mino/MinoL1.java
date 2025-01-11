@@ -1,10 +1,6 @@
 package mino;
 
 import java.awt.*;
-import java.util.Random;
-
-import static main.PlayManager.colors;
-import static main.PlayManager.randomIndex;
 
 public class MinoL1 extends Mino{
 
@@ -13,7 +9,7 @@ public class MinoL1 extends Mino{
     //o o
 
     public MinoL1() {
-        create(colors[randomIndex]);
+        create(Color.red);
     }
 
     public void setXY(int x, int y) {

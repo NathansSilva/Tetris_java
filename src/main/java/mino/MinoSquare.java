@@ -1,11 +1,10 @@
 package mino;
 
-import static main.PlayManager.colors;
-import static main.PlayManager.randomIndex;
+import java.awt.*;
 
 public class MinoSquare extends Mino{
     public MinoSquare() {
-        create(colors[randomIndex]);
+        create(Color.white);
     }
 
     @Override

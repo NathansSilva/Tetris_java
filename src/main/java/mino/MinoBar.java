@@ -1,12 +1,11 @@
 package mino;
 
-import static main.PlayManager.colors;
-import static main.PlayManager.randomIndex;
+import java.awt.*;
 
 public class MinoBar extends Mino {
 
     public MinoBar() {
-        create(colors[randomIndex]);
+        create(Color.cyan);
     }
 
     @Override

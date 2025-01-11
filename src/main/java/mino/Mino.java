@@ -4,6 +4,8 @@ import main.MovementHandler;
 import main.PlayManager;
 
 import java.awt.*;
+import java.util.List;
+import java.util.Random;
 
 public class Mino {
 
@@ -207,6 +209,7 @@ public class Mino {
     }
 
     public void draw(Graphics2D g2) {
+
         int margin = 1;
 
         g2.setColor(b[0].c);

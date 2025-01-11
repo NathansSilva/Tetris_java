@@ -1,11 +1,10 @@
 package mino;
 
-import static main.PlayManager.colors;
-import static main.PlayManager.randomIndex;
+import java.awt.*;
 
 public class MinoZ2 extends Mino {
     public MinoZ2() {
-        create(colors[randomIndex]);
+        create(Color.GREEN);
     }
 
     @Override

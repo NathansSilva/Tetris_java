@@ -1,12 +1,11 @@
 package mino;
 
-import static main.PlayManager.colors;
-import static main.PlayManager.randomIndex;
+import java.awt.*;
 
 public class MinoL2 extends Mino {
 
     public MinoL2() {
-        create(colors[randomIndex]);
+        create(Color.ORANGE);
     }
 
     public void setXY(int x, int y) {
