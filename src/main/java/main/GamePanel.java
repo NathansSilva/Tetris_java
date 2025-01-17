@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -13,12 +12,14 @@ public class GamePanel extends JPanel implements Runnable {
     PlayManager pm;
     public static Sound music = new Sound();
     public static Sound se = new Sound();
+    String bgImage = "\bg-image.png";
 
     public GamePanel() {
         //Panel settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(Color.BLACK);
         this.setLayout(null);
+        this.setBackground(Color.BLACK);
+
         //MovementHandler
         this.addKeyListener(new MovementHandler());
         this.setFocusable(true);
@@ -29,10 +30,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void launchGame() {
         gameThread = new Thread(this);
         gameThread.start();
-
         music.play(0, true);
         music.loop();
     }
+
 
     @Override
     public void run() {

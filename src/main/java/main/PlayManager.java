@@ -40,12 +40,12 @@ public class PlayManager {
     int lines;
     int score;
 
-
     //Others
     public static int dropInterval = 60; //mino drops in every 60 frames
 
+
     //game over
-    boolean gameOver;
+    public boolean gameOver;
 
     public PlayManager() {
         //Main Play Area Frame
@@ -54,6 +54,7 @@ public class PlayManager {
         top_y = 50;
         bottom_y = top_y + HEIGHT;
 
+        //start position
         MINO_START_X = left_x + (WIDTH / 2) - Block.SIZE;
         MINO_START_Y = top_y + Block.SIZE;
 
@@ -80,9 +81,8 @@ public class PlayManager {
             case 6 -> new MinoZ2();
             default -> throw new IllegalStateException("Unexpected value: " + i);
         };
-
-
         return mino;
+
     }
 
 
@@ -94,14 +94,7 @@ public class PlayManager {
             staticBlocks.add(currentMino.b[2]);
             staticBlocks.add(currentMino.b[3]);
 
-            //check gameover, check if is moving from the starting pos.
-            if (currentMino.b[0].x == MINO_START_X && currentMino.b[0].y == MINO_START_Y) {
-                gameOver = true;
-                GamePanel.music.stop();
-                GamePanel.se.play(2, false);
-            }
-
-            currentMino.deactivating = false;
+            checkGameOver();
 
             //nextMino
             currentMino = nextMino;
@@ -116,6 +109,19 @@ public class PlayManager {
         }
     }
 
+
+    public void checkGameOver() {
+        //check gameover, check if is moving from the starting pos.
+        if (currentMino.b[0].x == MINO_START_X && currentMino.b[0].y == MINO_START_Y) {
+            gameOver = true;
+            GamePanel.music.stop();
+            GamePanel.se.play(2, false);
+        }
+
+        currentMino.deactivating = false;
+    }
+
+
     private void checkDelete() {
         int x = left_x;
         int y = top_y;
@@ -123,7 +129,6 @@ public class PlayManager {
         int lineCount = 0;
 
         while (x < right_x && y < bottom_y) {
-
             for (Block staticBlock : staticBlocks) {
                 if (staticBlock.x == x && staticBlock.y == y) {
                     blockCount++;
@@ -143,18 +148,10 @@ public class PlayManager {
                             staticBlocks.remove(i);
                         }
                     }
-
                     lineCount++;
                     lines++;
-                    //Drop speed, score hits a number and increases speed, 1 is the fastest
-                    if (lines % 7 == 0 && dropInterval > 1) {
-                        level++;
-                        if (dropInterval > 10) {
-                            dropInterval -= 10;
-                        } else {
-                            dropInterval -= 1;
-                        }
-                    }
+
+                    score();
 
                     //moving blocks down
                     for (int i = 0; i < staticBlocks.size(); i++) {
@@ -173,7 +170,19 @@ public class PlayManager {
                 int singleLineScore = 10 * level;
                 score+= singleLineScore * lineCount;
             }
+        }
+    }
 
+
+    private void score() {
+        //Drop speed, score hits a number and increases speed, 1 is the fastest
+        if (lines % 7 == 0 && dropInterval > 1) {
+            level++;
+            if (dropInterval > 10) {
+                dropInterval -= 10;
+            } else {
+                dropInterval -= 1;
+            }
         }
     }
 
