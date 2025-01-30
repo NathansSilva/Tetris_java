@@ -10,15 +10,18 @@ public class GamePanel extends JPanel implements Runnable {
     final int FPS = 60;
     Thread gameThread;
     PlayManager pm;
+    private Image backgroundImage;
     public static Sound music = new Sound();
     public static Sound se = new Sound();
-    String bgImage = "\bg-image.png";
+
 
     public GamePanel() {
         //Panel settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(null);
         this.setBackground(Color.BLACK);
+
+        backgroundImage = new ImageIcon(getClass().getResource("/bg-image.jpg")).getImage();
 
         //MovementHandler
         this.addKeyListener(new MovementHandler());
@@ -63,6 +66,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(),getHeight(), this);
+        }
 
         Graphics2D g2 = (Graphics2D)g;
         pm.draw(g2);
