@@ -263,7 +263,7 @@ public class PlayManager {
         y = top_y + 240;
         g2.setColor(Color.getHSBColor(130, 41, 51));
         g2.setFont(new Font("Times new Roman", Font.BOLD, 16));
-        g2.drawString("Created by: NathansSilva, following steps of RyiSnow", x, y);
+        g2.drawString(":DDD", x, y);
 
 
     }
